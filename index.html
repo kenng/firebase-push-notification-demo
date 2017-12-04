@@ -1,14 +1,20 @@
 <html>
 <title>Firebase Messaging Demo</title>
-
+<style>
+    div {
+        margin-bottom: 15px;
+    }
+</style>
 <body>
     <div id="token"></div>
     <div id="msg"></div>
+    <div id="notis"></div>
     <div id="err"></div>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
     <script>
         MsgElem = document.getElementById("msg")
         TokenElem = document.getElementById("token")
+        NotisElem = document.getElementById("notis")
         Errlem = document.getElementById("err")
         // Initialize Firebase
         // TODO: Replace with your project's customized code snippet
@@ -38,6 +44,11 @@
                 ErrElem.innerHTML =  ErrElem.innerHTML + "; " + err
                 console.log("Unable to get permission to notify.", err);
             });
+
+        messaging.onMessage(function(payload) {
+            console.log("Message received. ", payload);
+            NotisElem.innerHTML = NotisElem.innerHTML + JSON.stringify(payload) 
+        });
     </script>
 
     <body>
