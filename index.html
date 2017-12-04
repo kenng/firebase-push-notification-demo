@@ -12,13 +12,13 @@
         Errlem = document.getElementById("err")
         // Initialize Firebase
         // TODO: Replace with your project's customized code snippet
-         var config = {
+        var config = {
             apiKey: "<API_KEY>",
             authDomain: "<PROJECT_ID>.firebaseapp.com",
             databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
             storageBucket: "<BUCKET>.appspot.com",
             messagingSenderId: "<SENDER_ID>",
-         };
+        };
         firebase.initializeApp(config);
 
         const messaging = firebase.messaging();
@@ -27,6 +27,12 @@
             .then(function () {
                 MsgElem.innerHTML = "Notification permission granted." 
                 console.log("Notification permission granted.");
+                
+                // get the token in the form of promise
+                return messaging.getToken()
+            })
+            .then(function(token) {
+                TokenElem.innerHTML = "token is : " + token
             })
             .catch(function (err) {
                 ErrElem.innerHTML =  ErrElem.innerHTML + "; " + err
