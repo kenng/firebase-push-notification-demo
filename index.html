@@ -1,0 +1,39 @@
+<html>
+<title>Firebase Messaging Demo</title>
+
+<body>
+    <div id="token"></div>
+    <div id="msg"></div>
+    <div id="err"></div>
+    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+    <script>
+        MsgElem = document.getElementById("msg")
+        TokenElem = document.getElementById("token")
+        Errlem = document.getElementById("err")
+        // Initialize Firebase
+        // TODO: Replace with your project's customized code snippet
+         var config = {
+            apiKey: "<API_KEY>",
+            authDomain: "<PROJECT_ID>.firebaseapp.com",
+            databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
+            storageBucket: "<BUCKET>.appspot.com",
+            messagingSenderId: "<SENDER_ID>",
+         };
+        firebase.initializeApp(config);
+
+        const messaging = firebase.messaging();
+        messaging
+            .requestPermission()
+            .then(function () {
+                MsgElem.innerHTML = "Notification permission granted." 
+                console.log("Notification permission granted.");
+            })
+            .catch(function (err) {
+                ErrElem.innerHTML =  ErrElem.innerHTML + "; " + err
+                console.log("Unable to get permission to notify.", err);
+            });
+    </script>
+
+    <body>
+
+</html>
