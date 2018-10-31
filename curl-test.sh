@@ -1,5 +1,5 @@
 #!/bin/bash
-curl -X POST -H "Authorization: key=<API_ACCESS_KEY>" -H "Content-Type: application/json" \
+curl -X POST -H "Authorization: key=<SERVER KEY>" -H "Content-Type: application/json" \
    -d '{
   "data": {
     "notification": {
