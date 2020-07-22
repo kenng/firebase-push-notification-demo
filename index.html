@@ -10,10 +10,8 @@
     <div id="msg"></div>
     <div id="notis"></div>
     <div id="err"></div>
-    <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-messaging.js"></script>
-    <!-- For an optimal experience using Cloud Messaging, also add the Firebase SDK for Analytics. -->
-    <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-messaging.js"></script>
     <script>
         MsgElem = document.getElementById("msg");
         TokenElem = document.getElementById("token");
@@ -22,11 +20,10 @@
         // Initialize Firebase
         // TODO: Replace with your project's customized code snippet
         var config = {
-            apiKey: "<API_KEY>",
-            authDomain: "<PROJECT_ID>.firebaseapp.com",
-            databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
-            storageBucket: "<BUCKET>.appspot.com",
-            messagingSenderId: "<SENDER_ID>",
+            'messagingSenderId': 'YOUR-SENDER-ID',
+            'apiKey': 'YOUR_API_KEY',
+            'projectId': 'YOUR_PROJECT_ID',
+            'appId': 'YOUR_APP_ID',
         };
         firebase.initializeApp(config);
 
@@ -48,14 +45,17 @@
                 console.log("Unable to get permission to notify.", err);
             });
 
+        let enableForegroundNotification = true;
         messaging.onMessage(function(payload) {
             console.log("Message received. ", payload);
             NotisElem.innerHTML = NotisElem.innerHTML + JSON.stringify(payload);
-            //kenng - foreground notifications
-            const {title, ...options} = payload.notification;
-            navigator.serviceWorker.ready.then(registration => {
-                registration.showNotification(title, options);
-            });
+
+            if(enableForegroundNotification) {
+                const {title, ...options} = JSON.parse(payload.data.notification);
+                navigator.serviceWorker.getRegistrations().then(registration => {
+                    registration[0].showNotification(title, options);
+                });
+            }
         });
     </script>
 
