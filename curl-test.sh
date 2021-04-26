@@ -1,5 +1,9 @@
 #!/bin/bash
-curl -X POST -H "Authorization: key=<SERVER KEY>" -H "Content-Type: application/json" \
+SERVER_KEY='<your-server-key-from-cloud-messaging-config>'
+DEVICE_REG_TOKEN='<device-token-you-get-on-webpage>'
+
+CMD=$(cat <<END
+curl -X POST -H "Authorization: key=$SERVER_KEY" -H "Content-Type: application/json"
    -d '{
   "data": {
     "notification": {
@@ -8,5 +12,9 @@ curl -X POST -H "Authorization: key=<SERVER KEY>" -H "Content-Type: application/
         "icon": "/itwonders-web-logo.png",
     }
   },
-  "to": "<DEVICE_REGISTRATION_TOKEN>"
+  "to": "$DEVICE_REG_TOKEN"
 }' https://fcm.googleapis.com/fcm/send
+END
+)
+
+echo $CMD && eval $CMD
